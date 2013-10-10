@@ -57,6 +57,7 @@ namespace CardEncoder2
             catch (Exception ex)
             {
                 string errMsg = ex.Message;
+                MessageBox.Show("No Printers Found, power on/connect the printer and restart the program.");
             }
             job = null;
         }
@@ -64,18 +65,19 @@ namespace CardEncoder2
         private void bnPrint_Click(object sender, RoutedEventArgs e)
         {
 
-            //Get Selected Printer
-            printerName = cbPrinterList.SelectedItem.ToString();
-
             //Open Connection to Printer
             Job job = new Job();
             try
             {
+               printerName = cbPrinterList.SelectedItem.ToString();
                job.Open(printerName);
             }
             catch (Exception ex)
             {
                 string errMsg = ex.Message;
+                MessageBox.Show("You Must First Select a Printer");
+                e.Handled = true;
+
             }
 
             //Set Card Source and Destination
@@ -126,9 +128,17 @@ namespace CardEncoder2
 
         private void bnEject_Click(object sender, RoutedEventArgs e)
         {
-            printerName = cbPrinterList.SelectedItem.ToString();
             Job job = new Job();
-            job.Open(printerName);
+            try
+            {
+                printerName = cbPrinterList.SelectedItem.ToString();
+                job.Open(printerName);
+            }
+            catch (Exception ex)
+            {
+                string errMsg = ex.Message;
+                MessageBox.Show("You Must First Select a Printer");
+            }
             job.EjectCard();
             job.Close();
 
