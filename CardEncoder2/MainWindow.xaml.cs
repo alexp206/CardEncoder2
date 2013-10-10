@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ZMOTIFPRINTERLib;
+using System.Threading;
 
 namespace CardEncoder2
 {
@@ -22,6 +23,7 @@ namespace CardEncoder2
     /// </summary>
     public partial class MainWindow : Window
     {
+        int actionID1;
         string printerName;
         string alarm;
         string uuidJob;
@@ -31,9 +33,9 @@ namespace CardEncoder2
         int copiesCompleted;
         int copiesRequested;
         string magStatus;
-        string contactStatus; 
+        string contactStatus;
         string contactlessStatus;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -57,10 +59,8 @@ namespace CardEncoder2
                 string errMsg = ex.Message;
             }
             job = null;
-
-            
-
         }
+
         private void bnPrint_Click(object sender, RoutedEventArgs e)
         {
 
@@ -69,7 +69,14 @@ namespace CardEncoder2
 
             //Open Connection to Printer
             Job job = new Job();
-            job.Open(printerName);
+            try
+            {
+               job.Open(printerName);
+            }
+            catch (Exception ex)
+            {
+                string errMsg = ex.Message;
+            }
 
             //Set Card Source and Destination
             job.JobControl.FeederSource = FeederSourceEnum.CardFeeder; //Take Card From Feeder
@@ -83,22 +90,38 @@ namespace CardEncoder2
                 job.JobControl.Destination = DestinationTypeEnum.Hold; //Leave Card in Printer When Finished
             }
 
+            //Validate GNumber
+  
+
+
             // Magnetically Encode Card
-            int actionID1 = 0; 
+            actionID1 = 0; 
             string GNumPrefix = "0";
             string GNumSuffix = "1180=";
             string dataToEncode = GNumPrefix + tbGNumber.Text + GNumSuffix;
             job.MagDataOnly(1, "", dataToEncode, "", out actionID1);
-
+       
             //Report Job Status
-            while (job.IsOpen)
+            Task.Factory.StartNew( () =>
             {
-                short alarm = job.GetJobStatus(actionID1, out uuidJob, out printingStatus, out cardPosition, out errorCode, out copiesCompleted, out copiesRequested, out magStatus, out contactStatus, out contactlessStatus);
-                tbJobStatus.Text = printingStatus;
-            }
+                while (job.IsOpen)
+                {
+                    this.Dispatcher.BeginInvoke(new ThreadStart(() =>
+                    {
+                        short alarm = job.GetJobStatus(actionID1, out uuidJob, out printingStatus, out cardPosition, out errorCode, out copiesCompleted, out copiesRequested, out magStatus, out contactStatus, out contactlessStatus);
+                        tbMagStatus.Text = magStatus;
+                        tbPrinterStatus.Text = printingStatus;
+                    }));
+                    if (printingStatus == "done_ok")
+                    {
+                        job.Close();
+                        break;
+                    }
+                } 
+            });
 
             //Finish Up
-            job.Close();
+            
         }
 
         private void bnEject_Click(object sender, RoutedEventArgs e)

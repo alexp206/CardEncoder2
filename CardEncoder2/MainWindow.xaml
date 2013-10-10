@@ -1,20 +1,23 @@
 ﻿<Window x:Class="CardEncoder2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Card Encoder" Height="591.879" Width="327.659">
-    <Grid Margin="0,0,2,0">
+        Title="Card Encoder" Height="470.879" Width="327.659">
+    <Grid Margin="0,0,2,17">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="79*"/>
-            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="55*"/>
+            <ColumnDefinition Width="51*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="bnPrint" Content="Encode" HorizontalAlignment="Left" Height="35" Margin="30,237,0,0" VerticalAlignment="Top" Width="255" Click="bnPrint_Click" Grid.ColumnSpan="2"/>
-        <Label x:Name="lblGNum" Grid.ColumnSpan="2" Content="G-Number (ex: 00123456)" HorizontalAlignment="Left" Height="109" Margin="30,109,0,0" VerticalAlignment="Top" Width="255"/>
-        <TextBox x:Name="tbGNumber" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="30,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255"/>
-        <Button x:Name="bnEject" Content="Eject" HorizontalAlignment="Left" Height="35" Margin="30,307,0,0" VerticalAlignment="Top" Width="255" Click="bnEject_Click" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="cxEject" Content="Eject Card?" HorizontalAlignment="Left" Margin="30,184,0,0" VerticalAlignment="Top" Width="79" Height="16"/>
+        <Button x:Name="bnPrint" Content="Encode" HorizontalAlignment="Left" Height="35" Margin="30,186,0,0" VerticalAlignment="Top" Width="255" Click="bnPrint_Click" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblGNum" Grid.ColumnSpan="2" Content="G-Number (ex: 00123456)" HorizontalAlignment="Left" Height="29" Margin="30,80,0,0" VerticalAlignment="Top" Width="255"/>
+        <TextBox x:Name="tbGNumber" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="30,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255"/>
+        <Button x:Name="bnEject" Content="Eject" HorizontalAlignment="Left" Height="35" Margin="30,240,0,0" VerticalAlignment="Top" Width="255" Click="bnEject_Click" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="cxEject" Content="Eject Card?" HorizontalAlignment="Left" Margin="30,151,0,0" VerticalAlignment="Top" Width="79" Height="16"/>
         <ComboBox x:Name="cbPrinterList" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="30,53,0,0" VerticalAlignment="Top" Width="255" RenderTransformOrigin="0,0.682" Height="22"/>
-        <Label x:Name="lblPrinter" Content="Select a Printer" HorizontalAlignment="Left" Height="23" Margin="30,25,0,0" VerticalAlignment="Top" Width="99"/>
-        <TextBox x:Name="tbJobStatus" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="30,490,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255" IsEnabled="False"/>
+        <Label x:Name="lblPrinter" Content="Select a Printer (Serial#)" HorizontalAlignment="Left" Height="28" Margin="30,25,0,0" VerticalAlignment="Top" Width="255" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="tbMagStatus" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="30,384,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255" IsEnabled="False"/>
+        <TextBox x:Name="tbPrinterStatus" HorizontalAlignment="Left" Height="23" Margin="30,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255" Grid.ColumnSpan="2" IsEnabled="False" TextChanged="tbPrinterStatus_TextChanged"/>
+        <Label x:Name="lblPrinterStatus" Grid.ColumnSpan="2" Content="Printer Status" HorizontalAlignment="Left" Height="28" Margin="30,297,0,0" VerticalAlignment="Top" Width="255"/>
+        <Label x:Name="lblMagStatus" Content="Encoder Status" HorizontalAlignment="Left" Margin="30,353,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.526,0.038" Grid.ColumnSpan="2" Width="255"/>
 
     </Grid>
 </Window>
