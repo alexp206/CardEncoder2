@@ -30,13 +30,13 @@ namespace CardEncoder2
         string uuidJob;
         string printingStatus;
         string cardPosition;
-        int errorCode; 
+        int errorCode;
         int copiesCompleted;
         int copiesRequested;
         string magStatus;
         string contactStatus;
         string contactlessStatus;
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,7 +57,7 @@ namespace CardEncoder2
                     MessageBox.Show("No Printers Found, power on/connect the printer and restart the program.");
                 }
                 cbPrinterList.ItemsSource = (Array)objPrinterList;
-                
+
             }
             catch (Exception ex)
             {
@@ -71,53 +71,55 @@ namespace CardEncoder2
         {
             try
             {
-               //Open Connection to Printer
-               Job job = new Job();
-               printerName = cbPrinterList.SelectedItem.ToString();
-               job.Open(printerName);
-               //Set Card Source and Destination
-               job.JobControl.FeederSource = FeederSourceEnum.CardFeeder; //Take Card From Feeder
+                //Open Connection to Printer
+                Job job = new Job();
+                printerName = cbPrinterList.SelectedItem.ToString();
+                job.Open(printerName);
+                //Set Card Source and Destination
+                job.JobControl.FeederSource = FeederSourceEnum.CardFeeder; //Take Card From Feeder
 
-               if (cxEject.IsChecked == true) //Determine Checkbox State
-               {
-                   job.JobControl.Destination = DestinationTypeEnum.Eject; //Eject Card When Finished
-               }
-               else
-               {
-                   job.JobControl.Destination = DestinationTypeEnum.Hold; //Leave Card in Printer When Finished
-               }
+                if (cxEject.IsChecked == true) //Determine Checkbox State
+                {
+                    job.JobControl.Destination = DestinationTypeEnum.Eject; //Eject Card When Finished
+                }
+                else
+                {
+                    job.JobControl.Destination = DestinationTypeEnum.Hold; //Leave Card in Printer When Finished
+                }
 
-               //Validate GNumber
+                //Validate GNumber
                 if (Regex.IsMatch(tbGNumber.Text, "^[0-9]{8}$"))
                 {
 
 
-               // Magnetically Encode Card
-               actionID1 = 0;
-               string GNumPrefix = "0";
-               string GNumSuffix = "1180=";
-               string dataToEncode = GNumPrefix + tbGNumber.Text + GNumSuffix;
-               job.MagDataOnly(1, "", dataToEncode, "", out actionID1);
+                    // Magnetically Encode Card
+                    actionID1 = 0;
+                    string GNumPrefix = "0";
+                    string GNumSuffix = "1180=";
+                    string dataToEncode = GNumPrefix + tbGNumber.Text + GNumSuffix;
+                    job.MagDataOnly(1, "", dataToEncode, "", out actionID1);
 
-               //Report Job Status
-               Task.Factory.StartNew(() =>
-               {
-                   while (job.IsOpen)
-                   {
-                       this.Dispatcher.BeginInvoke(new ThreadStart(() =>
-                       {
-                           short alarm = job.GetJobStatus(actionID1, out uuidJob, out printingStatus, out cardPosition, out errorCode, out copiesCompleted, out copiesRequested, out magStatus, out contactStatus, out contactlessStatus);
-                           tbMagStatus.Text = magStatus;
-                           tbPrinterStatus.Text = printingStatus;
-                       }));
-                       if (printingStatus == "done_ok")
-                       {
-                           job.Close(); //Finish Up, Close Connection
-                           break;
-                       }
-                   }
-               });
-                }else{
+                    //Report Job Status
+                    Task.Factory.StartNew(() =>
+                    {
+                        while (job.IsOpen)
+                        {
+                            this.Dispatcher.BeginInvoke(new ThreadStart(() =>
+                            {
+                                short alarm = job.GetJobStatus(actionID1, out uuidJob, out printingStatus, out cardPosition, out errorCode, out copiesCompleted, out copiesRequested, out magStatus, out contactStatus, out contactlessStatus);
+                                tbMagStatus.Text = magStatus;
+                                tbPrinterStatus.Text = printingStatus;
+                            }));
+                            if (printingStatus == "done_ok")
+                            {
+                                job.Close(); //Finish Up, Close Connection
+                                break;
+                            }
+                        }
+                    });
+                }
+                else
+                {
                     job.Close();
                     MessageBox.Show("Please double check the G-Number and try again.");
                 }
@@ -130,7 +132,7 @@ namespace CardEncoder2
                 e.Handled = true;
 
             }
-         
+
         }
 
         private void bnEject_Click(object sender, RoutedEventArgs e)
