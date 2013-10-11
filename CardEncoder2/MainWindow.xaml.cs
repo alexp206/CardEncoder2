@@ -57,6 +57,7 @@ namespace CardEncoder2
                     MessageBox.Show("No Printers Found, power on/connect the printer and restart the program.");
                 }
                 cbPrinterList.ItemsSource = (Array)objPrinterList;
+                cbPrinterList.SelectedIndex = 0;
 
             }
             catch (Exception ex)
