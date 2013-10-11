@@ -99,6 +99,7 @@ namespace CardEncoder2
                     string GNumSuffix = "1180=";
                     string dataToEncode = GNumPrefix + tbGNumber.Text + GNumSuffix;
                     job.MagDataOnly(1, "", dataToEncode, "", out actionID1);
+                    tbGNumber.Text = ""; //Empty GNumber Field for Next Operation
 
                     //Report Job Status
                     Task.Factory.StartNew(() =>
