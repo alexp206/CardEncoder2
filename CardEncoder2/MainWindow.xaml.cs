@@ -89,15 +89,16 @@ namespace CardEncoder2
                 }
 
                 //Validate GNumber
-                if (Regex.IsMatch(tbGNumber.Text, "^[0-9]{8}$"))
+                if (Regex.IsMatch(tbGNumber.Text, "^[0-9]{9}$"))
                 {
 
 
                     // Magnetically Encode Card
                     actionID1 = 0;
-                    string GNumPrefix = "0";
+                    //string GNumPrefix = "0"; No longer automatically add prefix
                     string GNumSuffix = "1180=";
-                    string dataToEncode = GNumPrefix + tbGNumber.Text + GNumSuffix;
+                    //string dataToEncode = GNumPrefix + tbGNumber.Text + GNumSuffix; Remove Prefix
+                    string dataToEncode = tbGNumber.Text + GNumSuffix;
                     job.MagDataOnly(1, "", dataToEncode, "", out actionID1);
                     tbGNumber.Text = ""; //Empty GNumber Field for Next Operation
 

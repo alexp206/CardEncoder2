@@ -8,7 +8,7 @@
             <ColumnDefinition Width="51*"/>
         </Grid.ColumnDefinitions>
         <Button x:Name="bnPrint" Content="Encode" HorizontalAlignment="Left" Height="35" Margin="30,186,0,0" VerticalAlignment="Top" Width="255" Click="bnPrint_Click" Grid.ColumnSpan="2"/>
-        <Label x:Name="lblGNum" Grid.ColumnSpan="2" Content="G-Number (ex: 00123456)" HorizontalAlignment="Left" Height="29" Margin="30,80,0,0" VerticalAlignment="Top" Width="255"/>
+        <Label x:Name="lblGNum" Grid.ColumnSpan="2" Content="G-Number (ex: 000123456)" HorizontalAlignment="Left" Height="29" Margin="30,80,0,0" VerticalAlignment="Top" Width="255"/>
         <TextBox x:Name="tbGNumber" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="30,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255"/>
         <Button x:Name="bnEject" Content="Eject" HorizontalAlignment="Left" Height="35" Margin="30,240,0,0" VerticalAlignment="Top" Width="255" Click="bnEject_Click" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="cxEject" Content="Eject Card?" HorizontalAlignment="Left" Margin="30,151,0,0" VerticalAlignment="Top" Width="79" Height="16"/>
